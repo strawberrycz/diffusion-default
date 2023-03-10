@@ -1,7 +1,7 @@
 import App from '@/app';
 import AuthRoute from '@routes/auth.route';
 import IndexRoute from '@routes/index.route';
-import UsersRoute from '@routes/users.route';
+import StabilityRoute from '@/routes/stability.route';
 import validateEnv from '@utils/validateEnv';
 
 import chokidar from 'chokidar';
@@ -12,7 +12,7 @@ const FOTOS_DIR = 'G:\\My Drive\\txt2img-images';
 
 validateEnv();
 
-const app = new App([new IndexRoute(), new UsersRoute(), new AuthRoute()]);
+const app = new App([new IndexRoute(), new StabilityRoute(), new AuthRoute()]);
 
 app.listen();
 // initializeWatcher();

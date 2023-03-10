@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import UsersController from '@controllers/users.controller';
+import StabilityController from '@/controllers/stability.controller';
 import { StabilityDto } from '@/dtos/stability.dto';
 import { Routes } from '@interfaces/routes.interface';
 import validationMiddleware from '@middlewares/validation.middleware';
 
-class UsersRoute implements Routes {
+class StabilityRoute implements Routes {
   public router = Router();
-  public usersController = new UsersController();
+  public usersController = new StabilityController();
 
   constructor() {
     this.initializeRoutes();
@@ -17,4 +17,4 @@ class UsersRoute implements Routes {
   }
 }
 
-export default UsersRoute;
+export default StabilityRoute;

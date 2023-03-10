@@ -7,7 +7,7 @@ paths:
   /img:
     post:
       tags:
-      - users
+      - Images
       summary: Generate imgae based on prompt
       parameters:
       - name: body

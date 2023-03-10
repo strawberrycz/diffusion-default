@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { StabilityDto } from '@/dtos/stability.dto';
 import { generateAsync } from 'stability-client';
 
-class UsersController {
+class StabilityController {
   public getImg = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const prompt: StabilityDto = req.body;
@@ -24,4 +24,4 @@ class UsersController {
   };
 }
 
-export default UsersController;
+export default StabilityController;
