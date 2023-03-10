@@ -1,77 +1,25 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
-import { User } from '@interfaces/users.interface';
-import userService from '@services/users.service';
-//import { generateAsync } from 'stability-ts';
+import { StabilityDto } from '@/dtos/stability.dto';
+import { generateAsync } from 'stability-client';
 
 class UsersController {
-  public userService = new userService();
-
-  public getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const findAllUsersData: User[] = await this.userService.findAllUser();
-
-      res.status(200).json({ data: findAllUsersData, message: 'findAll' });
-    } catch (error) {
-      next(error);
-    }
-  };
-
   public getImg = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      // const { res, images } = await generateAsync({
-      //   prompt: 'A Stunning House',
-      //   apiKey: process.env.DREAMSTUDIO_API_KEY,
-      // });
-      // console.log(images, res);
-      res.status(200).json({ data: 'TEST', message: 'created' }); //{ images, res }
+      const prompt: StabilityDto = req.body;
+      const { response, images } = await generateAsync({
+        prompt: prompt.text, //A dream of a distant galaxy, by Caspar David Friedrich, matte painting trending on artstation HQ
+        apiKey: process.env.DREAMSTUDIO_API_KEY,
+        width: 512,
+        height: 512,
+        samples: 1,
+        cfgScale: 13,
+        steps: 25,
+        // sampler: 9,
+      });
+      // res.status(200).json({ data: images[0], message: 'generated' }); //{ images, res }
+      res.sendFile(images[0].filePath);
     } catch (e) {
       next(e);
-    }
-  };
-
-  public getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const userId = Number(req.params.id);
-      const findOneUserData: User = await this.userService.findUserById(userId);
-
-      res.status(200).json({ data: findOneUserData, message: 'findOne' });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public createUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const userData: CreateUserDto = req.body;
-      const createUserData: User = await this.userService.createUser(userData);
-
-      res.status(201).json({ data: createUserData, message: 'created' });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const userId = Number(req.params.id);
-      const userData: CreateUserDto = req.body;
-      const updateUserData: User[] = await this.userService.updateUser(userId, userData);
-
-      res.status(200).json({ data: updateUserData, message: 'updated' });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public deleteUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const userId = Number(req.params.id);
-      const deleteUserData: User[] = await this.userService.deleteUser(userId);
-
-      res.status(200).json({ data: deleteUserData, message: 'deleted' });
-    } catch (error) {
-      next(error);
     }
   };
 }

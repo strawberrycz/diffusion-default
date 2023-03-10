@@ -15,15 +15,18 @@ validateEnv();
 const app = new App([new IndexRoute(), new UsersRoute(), new AuthRoute()]);
 
 app.listen();
+// initializeWatcher();
 
-// Initialize watcher.
-const watcher = chokidar.watch(FOTOS_DIR, {
-  ignored: /(^|[\/\\])\../, // ignore dotfiles
-  persistent: true,
-});
+function initializeWatcher() {
+  // Initialize watcher.
+  const watcher = chokidar.watch(FOTOS_DIR, {
+    ignored: /(^|[\/\\])\../, // ignore dotfiles
+    persistent: true,
+  });
 
-// Add event listeners.
-watcher.on('add', path => runIrfan(path));
+  // Add event listeners.
+  watcher.on('add', path => runIrfan(path));
+}
 
 function runIrfan(path: string) {
   console.log(`File ${path} has been added`);
