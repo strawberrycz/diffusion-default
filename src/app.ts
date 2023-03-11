@@ -37,6 +37,8 @@ class App {
     });
   }
 
+  // TODO: https://dev.to/novu/sending-real-time-notifications-with-socketio-in-nodejs-1l5j
+
   public getServer() {
     return this.app;
   }
