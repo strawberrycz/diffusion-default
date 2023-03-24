@@ -12,25 +12,32 @@ import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
 import path from 'path';
+import http from 'http';
+import { Server } from 'socket.io';
 
 class App {
   public app: express.Application;
   public env: string;
   public port: string | number;
+  public http: http.Server;
+  public io: Server;
 
   constructor(routes: Routes[]) {
     this.app = express();
     this.env = NODE_ENV || 'development';
     this.port = PORT || 3000;
+    this.http = new http.Server(this.app);
+    this.io = new Server(this.http);
 
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
     this.initializeSwagger();
     this.initializeErrorHandling();
+    this.initializeSocketIO();
   }
 
   public listen() {
-    this.app.listen(this.port, () => {
+    this.http.listen(this.port, () => {
       logger.info(`=================================`);
       logger.info(`======= ENV: ${this.env} =======`);
       logger.info(`🚀 App listening on the port ${this.port}`);
@@ -80,6 +87,22 @@ class App {
 
   private initializeErrorHandling() {
     this.app.use(errorMiddleware);
+  }
+
+  private initializeSocketIO() {
+    this.io.on('connection', socket => {
+      console.log(`⚡: ${socket.id} user just connected`);
+      socket.on('disconnect', () => {
+        console.log('A user disconnected');
+      });
+      socket.on('message', data => {
+        //sends the data to everyone except you.
+        // socket.broadcast.emit('response', data);
+
+        //sends the data to everyone connected to the server
+        socket.emit('response', data);
+      });
+    });
   }
 }
 
