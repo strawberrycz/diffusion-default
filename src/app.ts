@@ -45,10 +45,12 @@ class App {
     });
   }
 
-  // TODO: https://dev.to/novu/sending-real-time-notifications-with-socketio-in-nodejs-1l5j
-
   public getServer() {
     return this.app;
+  }
+
+  public getIo() {
+    return this.io;
   }
 
   private initializeMiddlewares() {
@@ -100,7 +102,7 @@ class App {
         // socket.broadcast.emit('response', data);
 
         //sends the data to everyone connected to the server
-        socket.emit('response', data);
+        this.io.emit('response', data);
       });
     });
   }
