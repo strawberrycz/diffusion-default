@@ -31,5 +31,3 @@ function runIrfan(path: string) {
   console.log(`File ${path} has been added`);
   exec(`."${IRFAN_PATH}" ${path} /one /fs`, { shell: 'powershell.exe' });
 }
-
-export default app;

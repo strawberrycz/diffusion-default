@@ -13,27 +13,26 @@ import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
 import path from 'path';
 import http from 'http';
-import { Server } from 'socket.io';
+import SocketService from './services/socket.service';
 
 class App {
   public app: express.Application;
   public env: string;
   public port: string | number;
   public http: http.Server;
-  public io: Server;
+  public io: SocketService;
 
   constructor(routes: Routes[]) {
     this.app = express();
     this.env = NODE_ENV || 'development';
     this.port = PORT || 3000;
     this.http = new http.Server(this.app);
-    this.io = new Server(this.http);
+    this.io = SocketService.start(this.http);
 
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
     this.initializeSwagger();
     this.initializeErrorHandling();
-    this.initializeSocketIO();
   }
 
   public listen() {
@@ -89,22 +88,6 @@ class App {
 
   private initializeErrorHandling() {
     this.app.use(errorMiddleware);
-  }
-
-  private initializeSocketIO() {
-    this.io.on('connection', socket => {
-      console.log(`⚡: ${socket.id} user just connected`);
-      socket.on('disconnect', () => {
-        console.log('A user disconnected');
-      });
-      socket.on('message', data => {
-        //sends the data to everyone except you.
-        // socket.broadcast.emit('response', data);
-
-        //sends the data to everyone connected to the server
-        this.io.emit('response', data);
-      });
-    });
   }
 }
 
