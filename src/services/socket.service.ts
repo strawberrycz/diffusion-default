@@ -6,19 +6,22 @@ class SocketService {
   private static _io: Server;
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public constructor() {}
+  private constructor() {}
 
-  static getInstance(): SocketService {
+  private static getInstance(): SocketService {
     if (this._instance) {
       return this._instance;
     }
 
-    // throw Error('SocketService was not started');
+    this._instance = new SocketService();
+    return this._instance;
   }
 
   static start(http: http.Server): SocketService {
-    this._io = new Server(http);
-    this.connect();
+    if (!this._io) {
+      this._io = new Server(http);
+      this.connect();
+    }
     return this.getInstance();
   }
 

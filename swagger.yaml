@@ -3,12 +3,24 @@ tags:
   description: stable diffusion API
 
 paths:
+# [GET] last-img
+  /last-img:
+    get:
+      tags:
+      - Images
+      summary: Return latest saved image
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
 # [POST] img
   /img:
     post:
       tags:
       - Images
-      summary: Generate imgae based on prompt
+      summary: Generate image based on prompt
       parameters:
       - name: body
         in: body

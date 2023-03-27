@@ -13,7 +13,8 @@ class StabilityRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.post(`/img`, validationMiddleware(StabilityDto, 'body'), this.usersController.getImg);
+    this.router.get('/last-img', this.usersController.getLastImg);
+    this.router.post('/img', validationMiddleware(StabilityDto, 'body'), this.usersController.postImg);
   }
 }
 
