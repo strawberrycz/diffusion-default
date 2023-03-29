@@ -1,5 +1,6 @@
 import { Server } from 'socket.io';
 import http from 'http';
+import { logger } from '@/utils/logger';
 
 class SocketService {
   private static _instance: SocketService;
@@ -31,17 +32,9 @@ class SocketService {
 
   private static connect() {
     this._io.on('connection', socket => {
-      console.log(`⚡: ${socket.id} user just connected`);
+      logger.info(`SOCKET: ${socket.id} user connected`);
       socket.on('disconnect', () => {
-        console.log('A user disconnected');
-      });
-      socket.on('message', data => {
-        //sends the data to everyone except you.
-        // socket.broadcast.emit('response', data);
-
-        //sends the data to everyone connected to the server
-        console.log('message', data);
-        socket.emit('response', data);
+        logger.info(`SOCKET: ${socket.id} user disconnected`);
       });
     });
   }

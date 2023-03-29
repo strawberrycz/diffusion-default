@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Socket IO Chat App</title>
+    <title>Synkreticky Napříč.ai</title>
 
     <!-- Link to CSS file-->
     <link rel="stylesheet" href="./index.css" />
@@ -15,21 +15,13 @@
     ></script>
   </head>
   <body>
-    <div id="message-bar">
-      <p id="notification"></p>
+    <div class="container-top">
+      <div id="message-bar">
+        <p id="notification"></p>
+      </div>
     </div>
-    <form class="container">
-      <h2>Send Messages with Socket.io</h2>
-      <textarea
-        rows="5"
-        width="100%"
-        name="message"
-        id="message"
-        placeholder="Enter your message..."
-      ></textarea>
-      <button>SEND MESSAGE</button>
-    </form>
-
+    <div class="container" id="image">
+    </div>
     <!-- Link to the JavaScript file-->
     <script src="./script.js" type="module"></script>
     

@@ -1,19 +1,18 @@
 const notify = document.querySelector('#notification');
-const message = document.querySelector('#message');
-const button = document.querySelector('button');
+const image = document.getElementById('image');
 const messageBar = document.querySelector('#message-bar');
 const socket = io();
 
-socket.on('response', data => {
+socket.on('start', data => {
+  console.log(data);
   notify.textContent = data;
-  messageBar.style.backgroundColor = '#3F4E4F';
-  messageBar.style.height = '20vh';
+  messageBar.style.opacity = '100%';
 });
 
-function printMessage(e) {
-  e.preventDefault();
-  console.log(message.value);
-  socket.emit('message', message.value);
-}
+image.innerHTML = `<img src="/last-img">`;
 
-button.addEventListener('click', printMessage);
+socket.on('generated', data => {
+  console.log(data);
+  image.innerHTML = `<img src="/last-img?${Date.now()}"><span class="description">${data}</span>`;
+  messageBar.style.opacity = '0%';
+});

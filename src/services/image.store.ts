@@ -25,7 +25,7 @@ class ImageStore {
   }
 
   public async generateImage(prompt: string) {
-    SocketService.emit('response', `Starting generating prompt::: ${prompt}`);
+    SocketService.emit('start', `New prompt:: ${prompt}`);
     const { images } = await generateAsync({
       prompt: prompt, //A dream of a distant galaxy, by Caspar David Friedrich, matte painting trending on artstation HQ
       apiKey: process.env.DREAMSTUDIO_API_KEY,
@@ -37,7 +37,7 @@ class ImageStore {
       outDir: this.FOLDER_PATH,
       requestId: '1',
     });
-    SocketService.emit('response', prompt);
+    SocketService.emit('generated', prompt);
     logger.info(`IMAGE CREATED: ${prompt}`);
 
     const image = images[0];
