@@ -3,6 +3,7 @@ import { existsSync, readdirSync, renameSync } from 'fs';
 import path from 'path';
 import { generateAsync } from 'stability-client';
 import SocketService from './socket.service';
+import { StabilityDto } from '@/dtos/stability.dto';
 
 class ImageStore {
   private FOLDER_NAME = '.examples';
@@ -24,25 +25,25 @@ class ImageStore {
     return this._instance;
   }
 
-  public async generateImage(prompt: string) {
-    SocketService.emit('start', `New prompt:: ${prompt}`);
+  public async generateImage(prompt: StabilityDto) {
+    SocketService.emit('start', `New prompt:: ${prompt.text}`);
     const { images } = await generateAsync({
-      prompt: prompt, //A dream of a distant galaxy, by Caspar David Friedrich, matte painting trending on artstation HQ
+      prompt: prompt.text, //A dream of a distant galaxy, by Caspar David Friedrich, matte painting trending on artstation HQ
       apiKey: process.env.DREAMSTUDIO_API_KEY,
-      width: 512,
-      height: 512,
+      width: prompt.width || 512,
+      height: prompt.height || 512,
       samples: 1,
       cfgScale: 13,
       steps: 25,
       outDir: this.FOLDER_PATH,
       requestId: '1',
     });
-    SocketService.emit('generated', prompt);
-    logger.info(`IMAGE CREATED: ${prompt}`);
+    SocketService.emit('generated', prompt.text);
+    logger.info(`IMAGE CREATED: ${prompt.text}`);
 
     const image = images[0];
 
-    this.lastImage = this.renameImage(image.filePath, prompt);
+    this.lastImage = this.renameImage(image.filePath, prompt.text);
     return this.lastImage;
   }
 

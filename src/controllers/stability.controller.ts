@@ -21,7 +21,7 @@ class StabilityController {
   public postImg = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const prompt: StabilityDto = req.body;
-      const path = await this.imageStore.generateImage(prompt.text);
+      const path = await this.imageStore.generateImage(prompt);
       res.sendFile(path);
     } catch (e) {
       next(e);
