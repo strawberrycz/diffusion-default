@@ -35,6 +35,7 @@ class ImageStore {
       samples: 1,
       cfgScale: 13,
       steps: 25,
+      engine: 'stable-diffusion-512-v2-1',
       outDir: this.FOLDER_PATH,
       requestId: '1',
     });
