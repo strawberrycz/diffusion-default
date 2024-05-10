@@ -29,7 +29,7 @@ class ImageStore {
     SocketService.emit('start', `New prompt:: ${prompt.text}`);
     const { images } = await generateAsync({
       prompt: prompt.text, //A dream of a distant galaxy, by Caspar David Friedrich, matte painting trending on artstation HQ
-      apiKey: process.env.DREAMSTUDIO_API_KEY,
+      apiKey: process.env.DREAMSTUDIO_API_KEY, // An Concept art of two friends with padles having a good time in the canoe by Keith Haring, highly-detailed, dramatic lighting
       width: prompt.width || 512,
       height: prompt.height || 512,
       samples: 1,
